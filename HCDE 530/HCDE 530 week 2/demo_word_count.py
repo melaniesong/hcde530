@@ -1,11 +1,12 @@
 import csv
 
-
-# Load the CSV file
+# Load the responses from file 
+# Load the responses from   the demo_responses.csv file into a list of dictionaries
 filename = "demo_responses.csv"
 responses = []
 
 with open(filename, newline="", encoding="utf-8") as f:
+    # DictReader maps each CSV row to a dict using the header names.
     reader = csv.DictReader(f)
     for row in reader:
         responses.append(row)
@@ -24,9 +25,11 @@ def count_words(response):
 print(f"{'ID':<6} {'Role':<22} {'Words':<6} {'Response (first 60 chars)'}")
 print("-" * 75)
 
+# Stores one word-count per response for summary stats at the end.
 word_counts = []
 
 for row in responses:
+    # Pull the columns we care about from each CSV row.
     participant = row["participant_id"]
     role = row["role"]
     response = row["response"]
@@ -41,9 +44,10 @@ for row in responses:
     else:
         preview = response
 
+    # Width specifiers (<6, <22, etc.) keep output aligned in columns.
     print(f"{participant:<6} {role:<22} {count:<6} {preview}")
 
-# Print summary statistics
+# Print quick stats to show response length range and typical length.
 print()
 print("── Summary ─────────────────────────────────")
 print(f"  Total responses : {len(word_counts)}")

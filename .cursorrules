@@ -1,0 +1,36 @@
+# Project Rules
+
+## Directory Structure (Update This Section On File Changes)
+
+```text
+.
+|-- .cursor/
+|   `-- rules/
+|       `-- python-project-standards.mdc
+|-- .gitignore
+|-- README.md
+|-- dashboard.html
+|-- demo_responses.csv
+|-- demo_word_count.py
+`-- HCDE 530/
+    `-- HCDE 530 week 2/
+        |-- .gitignore
+        |-- README.md
+        |-- dashboard.html
+        |-- demo_responses.csv
+        `-- demo_word_count.py
+```
+
+## Maintenance Requirement
+
+- When any file or folder is added, removed, moved, or renamed, update the
+  "Directory Structure" section in this file in the same change.
+- Keep the structure concise and only include source/project files (skip `.git`
+  internals and OS files like `.DS_Store`).
+- Keep paths and names exactly as they appear in the repository.
+
+## Coding Preferences
+
+- Prefer simple, readable Python and HTML for coursework.
+- Avoid adding dependencies unless explicitly requested.
+- Keep data file names stable unless the user asks for a rename.

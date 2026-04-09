@@ -1,0 +1,16 @@
+---
+description: Python and project conventions for HCDE 530 files
+globs: "**/*.py"
+alwaysApply: false
+---
+
+# Python Project Standards
+
+- Keep scripts simple and readable for coursework/demo use.
+- Prefer small, pure helper functions over large inline blocks.
+- Use clear variable names and avoid single-letter names except loop counters.
+- Validate file and user input with friendly error messages.
+- Add docstrings for non-trivial functions (what it does, inputs, outputs).
+- Keep output formatting consistent and easy to scan.
+- Do not introduce new dependencies unless explicitly requested.
+- Preserve existing file paths and data file names unless asked to change them.
