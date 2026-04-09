@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HCDE 530 Week 2 Dashboard</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --text: #1b1f2a;
+      --muted: #5d6475;
+      --accent: #3b82f6;
+      --accent-soft: #dbeafe;
+      --border: #e6e8ef;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.8rem;
+    }
+
+    .sub {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    button, select, input[type="file"] {
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+    }
+
+    button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .metric { grid-column: span 3; }
+    .roles { grid-column: span 6; }
+    .keywords { grid-column: span 6; }
+    .responses { grid-column: span 12; }
+
+    .metric .label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 8px;
+    }
+
+    .metric .value {
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+
+    #roleBars .row {
+      margin: 9px 0;
+    }
+
+    #roleBars .head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      margin-bottom: 6px;
+    }
+
+    #roleBars .bar {
+      background: #eef2ff;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 11px;
+    }
+
+    #roleBars .fill {
+      background: var(--accent);
+      height: 100%;
+    }
+
+    #keywordList {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    #keywordList li {
+      background: var(--accent-soft);
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 0.88rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border-top: 1px solid var(--border);
+      padding: 10px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+
+    .muted { color: var(--muted); }
+
+    @media (max-width: 900px) {
+      .metric, .roles, .keywords, .responses { grid-column: span 12; }
+      #keywordList { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>HCDE 530 Week 2 Dashboard</h1>
+    <p class="sub">Insights from <code>demo_responses.csv</code></p>
+
+    <div class="controls">
+      <button id="reloadBtn">Reload CSV</button>
+      <label>
+        <span class="muted">Role filter</span>
+        <select id="roleFilter">
+          <option value="ALL">All roles</option>
+        </select>
+      </label>
+      <label>
+        <span class="muted">Load a CSV file</span>
+        <input id="fileInput" type="file" accept=".csv" />
+      </label>
+    </div>
+
+    <div class="grid">
+      <div class="card metric">
+        <div class="label">Total Responses</div>
+        <div id="totalResponses" class="value">0</div>
+      </div>
+      <div class="card metric">
+        <div class="label">Unique Roles</div>
+        <div id="uniqueRoles" class="value">0</div>
+      </div>
+      <div class="card metric">
+        <div class="label">Avg Response Length (words)</div>
+        <div id="avgWords" class="value">0</div>
+      </div>
+      <div class="card metric">
+        <div class="label">Longest Response (words)</div>
+        <div id="maxWords" class="value">0</div>
+      </div>
+
+      <div class="card roles">
+        <h2>Responses by Role</h2>
+        <div id="roleBars"></div>
+      </div>
+
+      <div class="card keywords">
+        <h2>Top Keywords</h2>
+        <ul id="keywordList"></ul>
+      </div>
+
+      <div class="card responses">
+        <h2>All Responses</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 110px;">Participant</th>
+              <th style="width: 180px;">Role</th>
+              <th>Response</th>
+              <th style="width: 90px;">Words</th>
+            </tr>
+          </thead>
+          <tbody id="responseBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_CSV_PATH = "./demo_responses.csv";
+    let allRows = [];
+
+    // Small CSV parser that supports quoted fields and commas in text.
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let field = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        const next = text[i + 1];
+
+        if (ch === '"') {
+          if (inQuotes && next === '"') {
+            field += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (ch === "," && !inQuotes) {
+          row.push(field);
+          field = "";
+        } else if ((ch === "\n" || ch === "\r") && !inQuotes) {
+          if (ch === "\r" && next === "\n") i++;
+          row.push(field);
+          if (row.some((v) => v !== "")) rows.push(row);
+          row = [];
+          field = "";
+        } else {
+          field += ch;
+        }
+      }
+
+      if (field.length > 0 || row.length > 0) {
+        row.push(field);
+        rows.push(row);
+      }
+
+      const headers = rows[0] || [];
+      return rows.slice(1).map((r) => {
+        const obj = {};
+        headers.forEach((h, idx) => {
+          obj[h.trim()] = (r[idx] || "").trim();
+        });
+        return obj;
+      });
+    }
+
+    function countWords(text) {
+      return (text || "").trim().split(/\s+/).filter(Boolean).length;
+    }
+
+    function roleCounts(rows) {
+      const map = {};
+      rows.forEach((r) => {
+        map[r.role] = (map[r.role] || 0) + 1;
+      });
+      return map;
+    }
+
+    function topKeywords(rows, n = 10) {
+      const stop = new Set([
+        "the","and","to","of","a","in","is","it","we","i","that","for","on","with","as","this","they","are",
+        "but","have","be","at","my","do","our","from","by","so","an","or","if","than","just","when","what",
+        "into","more","not","up","out","all","their","them","then","you","there","been","always","can"
+      ]);
+      const counts = {};
+      rows.forEach((r) => {
+        const tokens = (r.response || "")
+          .toLowerCase()
+          .replace(/[^a-z0-9\s]/g, " ")
+          .split(/\s+/)
+          .filter((w) => w.length > 2 && !stop.has(w));
+        tokens.forEach((t) => {
+          counts[t] = (counts[t] || 0) + 1;
+        });
+      });
+      return Object.entries(counts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, n);
+    }
+
+    function updateRoleFilter(rows) {
+      const select = document.getElementById("roleFilter");
+      const roles = [...new Set(rows.map((r) => r.role))].sort();
+      select.innerHTML = '<option value="ALL">All roles</option>' +
+        roles.map((r) => `<option value="${r}">${r}</option>`).join("");
+    }
+
+    function render(rows) {
+      const total = rows.length;
+      const roles = [...new Set(rows.map((r) => r.role))];
+      const wordCounts = rows.map((r) => countWords(r.response));
+      const avgWords = total ? Math.round(wordCounts.reduce((a, b) => a + b, 0) / total) : 0;
+      const maxWords = wordCounts.length ? Math.max(...wordCounts) : 0;
+
+      document.getElementById("totalResponses").textContent = total;
+      document.getElementById("uniqueRoles").textContent = roles.length;
+      document.getElementById("avgWords").textContent = avgWords;
+      document.getElementById("maxWords").textContent = maxWords;
+
+      const roleMap = roleCounts(rows);
+      const maxRoleCount = Math.max(1, ...Object.values(roleMap));
+      const roleBars = Object.entries(roleMap)
+        .sort((a, b) => b[1] - a[1])
+        .map(([role, count]) => {
+          const width = Math.round((count / maxRoleCount) * 100);
+          return `
+            <div class="row">
+              <div class="head"><span>${role}</span><strong>${count}</strong></div>
+              <div class="bar"><div class="fill" style="width:${width}%"></div></div>
+            </div>
+          `;
+        }).join("");
+      document.getElementById("roleBars").innerHTML = roleBars || "<p class='muted'>No data.</p>";
+
+      const keywords = topKeywords(rows, 12);
+      document.getElementById("keywordList").innerHTML = keywords
+        .map(([word, count]) => `<li><span>${word}</span><strong>${count}</strong></li>`)
+        .join("");
+
+      document.getElementById("responseBody").innerHTML = rows.map((r) => `
+        <tr>
+          <td>${r.participant_id}</td>
+          <td>${r.role}</td>
+          <td>${r.response}</td>
+          <td>${countWords(r.response)}</td>
+        </tr>
+      `).join("");
+    }
+
+    function applyFilter() {
+      const role = document.getElementById("roleFilter").value;
+      const filtered = role === "ALL" ? allRows : allRows.filter((r) => r.role === role);
+      render(filtered);
+    }
+
+    async function loadDefaultCSV() {
+      try {
+        const res = await fetch(DEFAULT_CSV_PATH);
+        if (!res.ok) throw new Error("Failed to load CSV.");
+        const text = await res.text();
+        allRows = parseCSV(text);
+        updateRoleFilter(allRows);
+        render(allRows);
+      } catch (err) {
+        document.getElementById("responseBody").innerHTML = `
+          <tr><td colspan="4" class="muted">
+            Could not load <code>${DEFAULT_CSV_PATH}</code>. If you opened this HTML directly from Finder,
+            run a local server (for example: <code>python3 -m http.server</code>) and open it via
+            <code>http://localhost:8000/dashboard.html</code>, or use the file picker above.
+          </td></tr>
+        `;
+      }
+    }
+
+    document.getElementById("roleFilter").addEventListener("change", applyFilter);
+    document.getElementById("reloadBtn").addEventListener("click", loadDefaultCSV);
+    document.getElementById("fileInput").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        allRows = parseCSV(reader.result);
+        updateRoleFilter(allRows);
+        render(allRows);
+      };
+      reader.readAsText(file);
+    });
+
+    loadDefaultCSV();
+  </script>
+</body>
+</html>
