@@ -1,7 +1,14 @@
+"""demo_word_count.py — read survey responses from a CSV and report word counts.
+
+What this script does (in order):
+1. Load every row from demo_responses.csv into a list of dicts.
+2. For each row, count words in the response text and print a table row.
+3. Print summary stats: how many responses, shortest/longest/average word count.
+"""
+
 import csv
 
-# Load the responses from file 
-# Load the responses from   the demo_responses.csv file into a list of dictionaries
+# --- Load CSV into memory ----------------------------------------------------
 filename = "demo_responses.csv"
 responses = []
 
@@ -13,41 +20,52 @@ with open(filename, newline="", encoding="utf-8") as f:
 
 
 def count_words(response):
-    """Count the number of words in a response string.
+    """Return how many words are in a single response string.
 
-    Takes a string, splits it on whitespace, and returns the word count.
-    Used to measure response length across all participants.
+    Words are split on whitespace (spaces, newlines, tabs). Multiple spaces
+    between words still produce one split, so extra spacing does not inflate
+    the count. Empty or whitespace-only strings count as zero words.
+
+    Args:
+        response: The free-text answer from one participant (a string).
+
+    Returns:
+        An integer: the number of words in that string.
     """
     return len(response.split())
 
 
-# Count words in each response and print a row-by-row summary
+# --- Print one line per response ---------------------------------------------
 print(f"{'ID':<6} {'Role':<22} {'Words':<6} {'Response (first 60 chars)'}")
 print("-" * 75)
 
-# Stores one word-count per response for summary stats at the end.
+# Stores one integer word-count per response; after the loop we use this list
+# for min / max / average in the summary block below.
 word_counts = []
 
+# Loop once per survey row: each time through, we read one person's answers,
+# count words in their long text response, save that number, and print a row.
 for row in responses:
-    # Pull the columns we care about from each CSV row.
+    # Each `row` is a dict keyed by CSV column name (participant_id, role, response).
     participant = row["participant_id"]
     role = row["role"]
     response = row["response"]
 
-    # Call our function to count words in this response
+    # Word count: `count_words` splits the string on whitespace and counts pieces.
     count = count_words(response)
+    # Keep the count so the summary can scan every count without re-reading the CSV.
     word_counts.append(count)
 
-    # Truncate the response preview for display
+    # Show only the start of long answers so the table stays readable in the terminal.
     if len(response) > 60:
         preview = response[:60] + "..."
     else:
         preview = response
 
-    # Width specifiers (<6, <22, etc.) keep output aligned in columns.
+    # Width specifiers (<6, <22, etc.) keep columns lined up under the header.
     print(f"{participant:<6} {role:<22} {count:<6} {preview}")
 
-# Print quick stats to show response length range and typical length.
+# --- Summary over all responses ----------------------------------------------
 print()
 print("── Summary ─────────────────────────────────")
 print(f"  Total responses : {len(word_counts)}")
