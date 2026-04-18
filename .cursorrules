@@ -22,7 +22,9 @@
     `-- HCDE 530 week 3/
         |-- clean_responses.py
         |-- responses.csv
-        `-- role_counts.py
+        |-- role_counts.py
+        |-- week3_analysis_buggy.py
+        `-- week3_analysis_figma.csv
 ```
 
 ## Maintenance Requirement

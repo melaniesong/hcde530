@@ -9,6 +9,8 @@ WORD_TO_INT = {
 }
 
 def parse_experience_years(raw_value):
+    # Clean one experience value so later math does not crash on messy text.
+    # Returns an integer if possible, otherwise returns None so the row can be skipped.
     text = (raw_value or "").strip().lower()
     # First try normal integer parsing (e.g., "7")
     try:
@@ -20,12 +22,72 @@ def parse_experience_years(raw_value):
         return WORD_TO_INT[text]
     return None
 
+def count_responses_by_normalized_role(rows):
+    """Return a dictionary of role -> count using normalized role names.
+    Each row's `role` value is stripped and title-cased so variations like
+    "ux researcher" and "UX Researcher" are counted together.
+    """
+    role_counts = {}
+    for row in rows:
+    # Get role value safely, remove extra spaces, normalize capitalization
+        role = row.get("role", "").strip().title()
+    # Count the role if it exists, otherwise add it to the dictionary
+        if role in role_counts:
+            role_counts[role] += 1
+        else:
+            role_counts[role] = 1
+    return role_counts
+
+def clean_row(row):
+    """Return one cleaned survey row with normalized text and parsed numbers."""
+    satisfaction_text = row.get("satisfaction_score", "").strip()
+    return {
+        "response_id": row.get("response_id", "").strip(),
+        "participant_name": row.get("participant_name", "").strip(),
+        "role": row.get("role", "").strip().title(),
+        "department": row.get("department", "").strip().title(),
+        "age_range": row.get("age_range", "").strip(),
+        "experience_years": parse_experience_years(row.get("experience_years", "")),
+        "satisfaction_score": int(satisfaction_text) if satisfaction_text else None,
+        "primary_tool": row.get("primary_tool", "").strip().lower(),
+        "response_text": row.get("response_text", "").strip(),
+    }
+
+def extract_cleaned_figma_rows(rows):
+    """Return cleaned rows for only the participants whose primary tool is Figma."""
+    figma_rows = []
+    for row in rows:
+        cleaned = clean_row(row)
+        if cleaned["primary_tool"] == "figma":
+            figma_rows.append(cleaned)
+    return figma_rows
+
+def write_cleaned_figma_csv(rows, output_filename):
+    """Write cleaned Figma-only rows to a new CSV file."""
+    figma_rows = extract_cleaned_figma_rows(rows)
+    fieldnames = [
+        "response_id",
+        "participant_name",
+        "role",
+        "department",
+        "age_range",
+        "experience_years",
+        "satisfaction_score",
+        "primary_tool",
+        "response_text",
+    ]
+    with open(output_filename, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(figma_rows)
+
 # Load the survey data from a CSV file
 filename = "week3_survey_messy.csv"
 rows = []
 
 with open(filename, newline="", encoding="utf-8") as f:
     reader = csv.DictReader(f)
+    # Loop through each CSV row and store it as a dictionary in `rows`.
     for row in reader:
         rows.append(row)
 
@@ -33,12 +95,22 @@ with open(filename, newline="", encoding="utf-8") as f:
 # Normalize role names so "ux researcher" and "UX Researcher" are counted together
 role_counts = {}
 
-for row in rows:
-    role = row["role"].strip().title()
-    if role in role_counts:
-        role_counts[role] += 1
-    else:
-        role_counts[role] = 1
+role_counts = count_responses_by_normalized_role(rows)
+
+# Print the role counts
+print("Responses by role:")
+# Sort the role counts by role name
+for role, count in sorted(role_counts.items()):
+    print(f"  {role}: {count}")
+
+
+#for row in rows:
+    # This loop standardizes role labels and counts how many times each role appears.
+#    role = row["role"].strip().title()
+ #   if role in role_counts:
+ #       role_counts[role] += 1
+ #   else:
+ #       role_counts[role] = 1
 
 print("Responses by role:")
 for role, count in sorted(role_counts.items()):
@@ -48,6 +120,8 @@ for role, count in sorted(role_counts.items()):
 total_experience = 0
 valid_experience_count = 0
 for row in rows:
+    # This loop parses each experience value and keeps only valid numeric values
+    # for the average calculation.
     years = parse_experience_years(row.get("experience_years", ""))
     if years is None:
         continue
@@ -67,6 +141,7 @@ else:
 # Find the top 5 highest satisfaction scores
 scored_rows = []
 for row in rows:
+    # This loop collects participant + score pairs for rows that have a score value.
     if row["satisfaction_score"].strip():
         scored_rows.append((row["participant_name"], int(row["satisfaction_score"])))
 
@@ -78,3 +153,7 @@ top5 = scored_rows[:5]
 print("\nTop 5 satisfaction scores:")
 for name, score in top5:
     print(f"  {name}: {score}")
+
+output_filename = "week3_analysis_figma.csv"
+write_cleaned_figma_csv(rows, output_filename)
+print(f"\nWrote cleaned Figma rows to {output_filename}")

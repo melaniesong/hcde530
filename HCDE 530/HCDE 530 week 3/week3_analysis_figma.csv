@@ -1,0 +1,14 @@
+response_id,participant_name,role,department,age_range,experience_years,satisfaction_score,primary_tool,response_text
+R001,Amara Osei,Ux Researcher,Product,25-34,3,4,figma,The onboarding flow is confusing. I had no idea what to do after signing up.
+R002,Jake Torrence,Ux Designer,Product,35-44,8,3,figma,"Search works well but the filters reset every time I navigate away, which is really frustrating."
+R007,Devon Marsh,Ux Designer,Product,25-34,4,4,figma,Keyboard navigation is broken on the settings page. I use a keyboard only and I'm stuck.
+R010,Ingrid Halvorsen,Ux Researcher,Design,25-34,3,4,figma,Response time on the dashboard is slow when you have more than 50 items. Everything else is fast.
+R011,Tom Briggs,Ux Designer,Product,35-44,9,3,figma,The undo history only goes back ten steps. On a complex diagram that's not nearly enough.
+R015,Maya Singh,Ux Designer,Design,25-34,2,4,figma,The color picker finally remembers my brand colors. Small thing but it saves me time every day.
+R017,Brianna Cole,Ux Designer,Product,35-44,10,2,figma,Collaboration features lag when more than three people are in the same file. We've had conflicts.
+R019,Zara Ahmed,Ux Researcher,Design,25-34,3,4,figma,Loading states need work. The spinner gives no indication of progress or estimated time.
+R021,Hyun-Ji Cho,Ux Designer,Design,28-37,5,4,figma,The component variants feature is excellent. It's changed how our whole team builds design systems.
+R024,Marco Di Luca,Ux Designer,Product,25-34,4,5,figma,Prototyping has gotten fast enough that I can test interactions the same day I design them.
+R027,Mei-Ling Chen,Ux Designer,Design,35-44,8,3,figma,Auto-layout is powerful but the learning curve is steep. Took me a week to feel confident.
+R030,Leon Fischer,Ux Designer,Product,28-37,5,2,figma,"Version history is almost unusable. No descriptions, no way to tell which version has what. Just dates."
+R033,Fabian Müller,Ux Designer,Design,35-44,10,4,figma,Real-time collaboration is smooth. We've replaced most of our design review meetings with async comments.
