@@ -81,6 +81,48 @@ def write_cleaned_figma_csv(rows, output_filename):
         writer.writeheader()
         writer.writerows(figma_rows)
 
+
+def summarize_data(cleaned_rows):
+    """Return a short plain-language summary of cleaned survey rows.
+
+    Covers total row count, distinct non-empty values in ``role``, and how many
+    rows have an empty name. Names are read from ``name`` or ``participant_name``
+    (whichever is present), matching :func:`clean_row`.
+    """
+    n = len(cleaned_rows)
+    roles = []
+    for row in cleaned_rows:
+        r = (row.get("role") or "").strip()
+        if r:
+            roles.append(r)
+    unique_roles = sorted(set(roles))
+    unique_count = len(unique_roles)
+
+    def row_name(row):
+        return (row.get("name") or row.get("participant_name") or "").strip()
+
+    empty_names = sum(1 for row in cleaned_rows if not row_name(row))
+
+    if unique_count == 0:
+        role_part = "There are no non-empty values in the role column."
+    elif unique_count == 1:
+        role_part = f"The only role listed is {unique_roles[0]}."
+    else:
+        listed = ", ".join(unique_roles[:-1]) + f", and {unique_roles[-1]}"
+        role_part = (
+            f"There are {unique_count} distinct roles: {listed}."
+        )
+
+    name_part = (
+        f"There {'is' if empty_names == 1 else 'are'} {empty_names} row"
+        f"{'s' if empty_names != 1 else ''} with an empty name field."
+    )
+
+    return (
+        f"This dataset has {n} row{'s' if n != 1 else ''}. {role_part} {name_part}"
+    )
+
+
 # Load the survey data from a CSV file
 filename = "week3_survey_messy.csv"
 rows = []
