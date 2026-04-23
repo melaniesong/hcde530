@@ -20,14 +20,21 @@
     |   |-- demo_word_count.py
     |   |-- week2.dm
     |   `-- week2.md
-    `-- HCDE 530 week 3/
-        |-- clean_responses.py
-        |-- responses.csv
-        |-- role_counts.py
-        |-- week3_analysis_buggy.py
-        |-- week3_analysis_figma.csv
-        |-- week3.dm
-        `-- week3.md
+    |-- HCDE 530 week 3/
+    |   |-- clean_responses.py
+    |   |-- responses.csv
+    |   |-- role_counts.py
+    |   |-- week3_analysis_buggy.py
+    |   |-- week3_analysis_figma.csv
+    |   |-- week3.dm
+    |   `-- week3.md
+    `-- HCDE 530 week 4/
+        |-- .gitignore
+        |-- analyze_helpful_votes.py
+        |-- .env.example
+        |-- fetch_met_museum_objects.py
+        |-- fetch_reviews.py
+        `-- README.md
 ```
 
 ## Maintenance Requirement

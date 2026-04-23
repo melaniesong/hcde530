@@ -1,0 +1,9 @@
+# Never commit secrets (assignment: API keys live in .env only)
+.env
+
+__pycache__/
+
+# Output from running the scripts locally (regenerate with python3 …)
+met_museum_objects.csv
+reviews_export.csv
+helpful_votes_analysis.csv
