@@ -3,7 +3,4 @@
 
 __pycache__/
 
-# Output from running the scripts locally (regenerate with python3 …)
-met_museum_objects.csv
-reviews_export.csv
-helpful_votes_analysis.csv
+# Sample CSV outputs from the scripts are tracked in git; regenerate anytime with python3 …

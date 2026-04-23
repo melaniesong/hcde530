@@ -29,12 +29,15 @@
     |   |-- week3.dm
     |   `-- week3.md
     `-- HCDE 530 week 4/
-        |-- .gitignore
-        |-- analyze_helpful_votes.py
         |-- .env.example
+        |-- .gitignore
+        |-- README.md
+        |-- analyze_helpful_votes.py
         |-- fetch_met_museum_objects.py
         |-- fetch_reviews.py
-        `-- README.md
+        |-- helpful_votes_analysis.csv
+        |-- met_museum_objects.csv
+        `-- reviews_export.csv
 ```
 
 ## Maintenance Requirement
