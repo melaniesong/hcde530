@@ -18,7 +18,8 @@
     |   |-- dashboard.html
     |   |-- demo_responses.csv
     |   |-- demo_word_count.py
-    |   `-- week2.dm
+    |   |-- week2.dm
+    |   `-- week2.md
     `-- HCDE 530 week 3/
         |-- clean_responses.py
         |-- responses.csv
