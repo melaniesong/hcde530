@@ -37,7 +37,8 @@
         |-- fetch_reviews.py
         |-- helpful_votes_analysis.csv
         |-- met_museum_objects.csv
-        `-- reviews_export.csv
+        |-- reviews_export.csv
+        `-- week4.md
 ```
 
 ## Maintenance Requirement
