@@ -26,7 +26,8 @@
         |-- role_counts.py
         |-- week3_analysis_buggy.py
         |-- week3_analysis_figma.csv
-        `-- week3.dm
+        |-- week3.dm
+        `-- week3.md
 ```
 
 ## Maintenance Requirement
