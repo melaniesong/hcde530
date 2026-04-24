@@ -11,12 +11,13 @@ Related script(s): `week3_analysis_buggy.py`, `week3_survey_messy.csv` → clean
 - [x] **C2 — Code Literacy and Documentation**  
   Focus: reading code, explaining what it does, and how clear names / comments / structure help others (and future you) use and maintain it.
 
-- [x] **C5 — Data Cleaning and Preparation**  
-  Focus: turning messy or inconsistent raw data into something reliable for analysis (handling missing values, inconsistent labels, edge cases, and documenting assumptions).
+- [x] **C3 — Debugging and Validation**  
+  Focus: finding why code is failing or producing incorrect results, testing fixes, and checking whether outputs are trustworthy.
+---
 
 **Why this fits what I did this week (one sentence)**
 
-Through the exercises this week, I figured out how to clean data in Python with Cursor’s help—but I didn’t ask it to write the code for me exactly. I asked Cursor to **guide me step by step** while I wrote the code myself. I also practiced **code literacy and documentation** by adding comments in my code so I could follow what each part was doing.
+Through the exercises this week, I practiced reading code, improving documentation, and debugging both obvious errors and subtle output problems. I used Cursor as a guide, but I wrote the code myself and worked through the fixes step by step.
 
 ---
 
@@ -40,19 +41,22 @@ I added **comments** that help *me* understand what the function does at a glanc
 
 ---
 
-### C5 — Data Cleaning and Preparation
+### C3 — Debugging and Validation
 
-**What kinds of “mess” show up, and how does the code address them?**
+**What bugs did I run into, and how did I know the code was wrong?**
 
-This exercise had **two main bugs** I ran into. One was a **text value** in the years-of-experience field (e.g. **“fifteen”**), which broke assumptions that everything was already a number. The other was around **sorting / handling satisfaction scores**—the “mess” there was partly about **types and logic** (what gets compared and how), not only spelling.
+This exercise had **two main bugs** I ran into. One was a **text value** in the years-of-experience field (for example **“fifteen”**), which caused an `invalid literal for int()` error because the script assumed every value was already numeric. This was easier to identify because Python clearly crashed and pointed to the conversion issue.
 
-**Normalization: roles, tools, experience—why it matters**
+The second bug was around **sorting satisfaction scores**. The script still ran, but the results were ordered incorrectly because the values were being handled as text instead of numbers. That meant the code looked like it worked, but the output was misleading. I noticed it was wrong because the sorted results did not make logical sense.
 
-I focused on **normalizing the experience field** so that values become **numbers** when possible. That way the field can be **used in math and analysis** (for example averages) instead of failing or mixing incomparable types. Separately, the script also uses patterns like **stripping and casing** for text fields (e.g. roles, tools) so labels line up for counting and filtering.
+**Why this matters for debugging**
 
-**Quality checks: how I’d trust or distrust the cleaned output**
+These two bugs showed me that debugging is not only about fixing crashes. Sometimes code runs successfully but still gives incorrect results. That means I need to check both whether the program runs and whether the output actually matches expectations.
 
-I would **deliberately put another bad or word-based value** in the original CSV (for example **“eleven”**) and re-run the script to confirm that `parse_experience_years` (and anything downstream) behaves the way I expect. I’d also spot-check a few rows in the output file and compare counts before/after filters (e.g. Figma-only rows) so I’m not silently dropping or miscounting data.
+**Quality checks: how I tested fixes**
+
+After making changes, I re-ran the script and deliberately added another bad value such as **“eleven”** to make sure the parsing fix handled more than one example. I also rechecked the satisfaction score sorting to confirm the order was numeric and sensible. This helped me verify I fixed the underlying logic instead of only patching one case.
+
 
 ---
 
