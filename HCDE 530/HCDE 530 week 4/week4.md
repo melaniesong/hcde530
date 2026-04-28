@@ -27,7 +27,7 @@ I practiced reading and explaining API scripts, handling real-world API behavior
 
 ## C2 — Code literacy and documentation
 
-**Q4 — Read the code:** Pick `fetch_met_museum_objects.py` *or* `fetch_reviews.py`. Without running it, trace the path from `main()` to the CSV on disk—in plain English.
+**Read the code:** Pick `fetch_met_museum_objects.py` *or* `fetch_reviews.py`. Without running it, trace the path from `main()` to the CSV on disk—in plain English.
 
 **Your answer:**
 
@@ -35,13 +35,13 @@ I practiced reading and explaining API scripts, handling real-world API behavior
 
 *(Script referenced: `fetch_reviews.py`.)*
 
-**Q5 — Safe change:** Name one small refactor you trust yourself to do (rename, comment, extract a function). What mistake would cause a confusing bug?
+**Safe change:** Name one small refactor you trust yourself to do (rename, comment, extract a function). What mistake would cause a confusing bug?
 
 **Your answer:**
 
 A small change I can make safely is to rename the variable `r` in the `for` loop to something clearer—for example, `for review in reviews`. If I am not careful and only rename it in one place, the loop will break.
 
-**Q6 — Legibility:** What does a classmate need (Python version, folder to `cd` into, `.env` keys, env vars like `MET_SEARCH_QUERY`) to run your scripts? Where did you put that information (file top comments, README, commits)?
+**Legibility:** What does a classmate need (Python version, folder to `cd` into, `.env` keys, env vars like `MET_SEARCH_QUERY`) to run your scripts? Where did you put that information (file top comments, README, commits)?
 
 **Your answer:**
 
@@ -55,19 +55,8 @@ I placed some of this information in the **comments at the top of the file**, wh
 
 ## C3 — Data cleaning and file handling
 
-**Q7 — Messy data:** For the CSVs you produced this week, what kinds of inconsistency or missingness showed up in the *source* data (API or file), and how did your script handle it (defaults, skips, types)?
 
-**Your answer:**
-
-*(Add if you want — optional for your submission.)*
-
-**Q8 — Repeatability:** If you deleted the output CSV and re-ran the script, what would match exactly? What could legitimately differ the next day?
-
-**Your answer:**
-
-*(Add if you want — optional for your submission.)*
-
-**Q9 — One error story:** Describe one error or traceback you hit while reading/writing data. What was the fix in human terms?
+**One error story:** Describe one error or traceback you hit while reading/writing data. What was the fix in human terms?
 
 **Your answer:**
 
@@ -77,13 +66,13 @@ One error happened when I was fetching data from the **Met API**. I did not set 
 
 ## C4 — APIs and data acquisition
 
-**Q10 — Documentation:** Which API(s) did you call (Met Collection, HCDE530 week4 reviews, both)? What doc or page told you the URL shape and which JSON keys to trust?
+**Documentation:** Which API(s) did you call (Met Collection, HCDE530 week4 reviews, both)? What doc or page told you the URL shape and which JSON keys to trust?
 
 **Your answer:**
 
 I used **The Metropolitan Museum of Art Collection API**. The main documentation page that helped me was the official developer site: [https://metmuseum.github.io/](https://metmuseum.github.io/). It explained the URL structure for endpoints such as the search endpoint and the objects endpoint, including how to format query parameters. It also described the JSON response fields, which helped me know which keys to trust, such as `objectIDs` from search results and fields like `title`, `artistDisplayName`, `objectDate`, and `primaryImage` from object records. The documentation was the main source I used to understand how to build requests and interpret the returned data.
 
-**Q11 — Fields:** Name **three** fields you extract (e.g. `department`, `helpful_votes`, `isHighlight`) and **why each matters** for a reader or an analysis—not “because the rubric asked.”
+**Fields:** Name **three** fields you extract (e.g. `department`, `helpful_votes`, `isHighlight`) and **why each matters** for a reader or an analysis—not “because the rubric asked.”
 
 **Your answer:**
 
@@ -100,7 +89,7 @@ The fields I extracted each add useful context for understanding and analyzing o
 - **`artistDisplayName`** matters because it names the creator associated with the object, which is valuable for readers and for comparing works by artist.
 - **`artistNationality`** matters because it gives the nationality label of the artist, which can support analysis of representation across regions or cultures within the collection.
 
-**Q12 — Auth:** Did any call require a secret key? If yes, where is it stored and how is it loaded? If no, how would you add a key safely later?
+**Auth:** Did any call require a secret key? If yes, where is it stored and how is it loaded? If no, how would you add a key safely later?
 
 **Your answer:**
 
@@ -108,7 +97,7 @@ No API call in my script required a secret key. The Met Collection API is public
 
 If I needed to add a key later, I would store it in a local `.env` file that is ignored by Git, load it into `os.environ`, and read it in the script with `os.environ.get(...)` instead of hard-coding it. That would be safer because the key would stay out of the source code and out of version control.
 
-**Q13 — Limits / failures:** What happens on a bad network day, HTTP 403/429, or a missing object? Point to the part of your code that retries, waits, or skips—and say whether you are happy with that behavior.
+**Limits / failures:** What happens on a bad network day, HTTP 403/429, or a missing object? Point to the part of your code that retries, waits, or skips—and say whether you are happy with that behavior.
 
 **Your answer:**
 
@@ -122,16 +111,8 @@ I am mostly happy with this behavior because it avoids losing the entire run whe
 
 ---
 
-## Cross-cutting
+## Documentation — what I did and why it matters for HCD
 
-**Q14 — One extra hour:** If you had one more hour this week, what would you improve first?
+In Week 4, I added retries and request delays to my Met API calls so the script stays under rate limits. This makes requests slightly slower, but it prevents common failures that happen when calls are sent too quickly. I chose this tradeoff because stable data collection is more important than maximum speed for this assignment.
 
-**Your answer:**
-
-*(Add if you want.)*
-
-**Q15 — Pride:** What is one thing you are proud of from Week 4?
-
-**Your answer:**
-
-*(Add if you want.)*
+This matters for HCD work because reliability affects everyone who depends on the data. Researchers get cleaner, more complete datasets instead of partial results caused by API errors. Designers can make better interface decisions when they understand API constraints and plan for loading states, delays, and missing records. End users benefit from more dependable interactive experiences because the system is less likely to fail during data retrieval.
