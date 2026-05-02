@@ -10,6 +10,9 @@
 |-- .gitignore
 |-- README.md
 `-- HCDE 530/
+    |-- .vscode/
+    |   `-- settings.json
+    |-- pyrightconfig.json
     |-- HCDE 530 week 2/
     |   |-- .gitignore
     |   |-- README.md
@@ -28,17 +31,31 @@
     |   |-- week3_analysis_figma.csv
     |   |-- week3.dm
     |   `-- week3.md
-    `-- HCDE 530 week 4/
-        |-- .env.example
+    |-- HCDE 530 week 4/
+    |   |-- .env.example
+    |   |-- .gitignore
+    |   |-- README.md
+    |   |-- analyze_helpful_votes.py
+    |   |-- fetch_met_museum_objects.py
+    |   |-- fetch_reviews.py
+    |   |-- helpful_votes_analysis.csv
+    |   |-- met_museum_objects.csv
+    |   |-- reviews_export.csv
+    |   `-- week4.md
+    |-- Week 5 Demo files/
+    |   |-- MP1 Restaurants/
+    |   |   |-- .gitignore
+    |   |   `-- MP1 analysis A5.ipynb
+    |   |-- app_info.csv
+    |   |-- app_reviews_demo.csv
+    |   |-- app_reviews_exploration.ipynb
+    |   |-- reviews_mini.csv
+    |   |-- week5_merge_demo.ipynb
+    |   `-- week5_pandas_demo.ipynb
+    `-- HCDE 530 week 5/
         |-- .gitignore
-        |-- README.md
-        |-- analyze_helpful_votes.py
-        |-- fetch_met_museum_objects.py
-        |-- fetch_reviews.py
-        |-- helpful_votes_analysis.csv
-        |-- met_museum_objects.csv
-        |-- reviews_export.csv
-        `-- week4.md
+        |-- week5.md
+        `-- Week 5 Demo files.zip
 ```
 
 ## Maintenance Requirement
