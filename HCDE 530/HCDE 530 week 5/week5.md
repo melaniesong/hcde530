@@ -6,7 +6,7 @@ Using pandas to answer analytical questions: **filtering**, **grouping**, **summ
 
 ## Framing
 
-This week I used my **MP1 restaurant dataset** to understand the table beyond a quick glance. **My pandas work for this week is in `HCDE 530/Week 5 Demo files/MP1 Restaurants/MP1 analysis A5.ipynb`** so a reader can open that file and follow the same steps.
+This week I used my **MP1 restaurant dataset** to understand the table beyond a quick glance. **My pandas work for this week is in `MP1 Restaurants/MP1 analysis A5.ipynb`**, in the same **`HCDE 530 week 5`** folder as this reflection and **`Week 5 Demo files/`** (repo path: `HCDE 530/HCDE 530 week 5/MP1 Restaurants/MP1 analysis A5.ipynb`).
 
 The questions I focused on were: **how many distinct primary categories exist** and how listings are spread across them; **among Asian-related cuisine labels**, which Google `Category` strings appear most often; and **by time zone**, how many restaurant listings fall in each zone and what the **average rating** looks like in each.
 
@@ -39,7 +39,7 @@ After seeing how many values were missing, I interpreted **average ratings more 
 
 ## Honesty and limits
 
-Pandas made it **easy to summarize** a very large table quickly—for example **`value_counts`** for category frequencies and **`groupby` + `agg`** for counts and average ratings by time zone (see **`Week 5 Demo files/MP1 Restaurants/MP1 analysis A5.ipynb`**).
+Pandas made it **easy to summarize** a very large table quickly—for example **`value_counts`** for category frequencies and **`groupby` + `agg`** for counts and average ratings by time zone (see **`MP1 Restaurants/MP1 analysis A5.ipynb`** next to **`Week 5 Demo files/`** under **`HCDE 530 week 5`**).
 
 At the same time, the **`Category`** field is **messy and inconsistent**, with many near-duplicate labels (for example **“Chinese restaurant”** versus **“Chinese takeaway”**). That makes “clean” cuisine comparisons hard without **explicit rules** (like keyword filters or a manual mapping).
 

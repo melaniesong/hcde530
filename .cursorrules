@@ -42,19 +42,19 @@
     |   |-- met_museum_objects.csv
     |   |-- reviews_export.csv
     |   `-- week4.md
-    |-- Week 5 Demo files/
-    |   |-- MP1 Restaurants/
-    |   |   |-- .gitignore
-    |   |   `-- MP1 analysis A5.ipynb
-    |   |-- app_info.csv
-    |   |-- app_reviews_demo.csv
-    |   |-- app_reviews_exploration.ipynb
-    |   |-- reviews_mini.csv
-    |   |-- week5_merge_demo.ipynb
-    |   `-- week5_pandas_demo.ipynb
     `-- HCDE 530 week 5/
         |-- .gitignore
         |-- week5.md
+        |-- MP1 Restaurants/
+        |   |-- .gitignore
+        |   `-- MP1 analysis A5.ipynb
+        |-- Week 5 Demo files/
+        |   |-- app_info.csv
+        |   |-- app_reviews_demo.csv
+        |   |-- app_reviews_exploration.ipynb
+        |   |-- reviews_mini.csv
+        |   |-- week5_merge_demo.ipynb
+        |   `-- week5_pandas_demo.ipynb
         `-- Week 5 Demo files.zip
 ```
 
