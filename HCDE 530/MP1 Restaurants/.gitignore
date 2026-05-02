@@ -1,0 +1,4 @@
+.venv/
+# Too large for GitHub (>100 MB); keep locally or use release/LFS if needed.
+200k_Restaurants_Mostly_US.csv
+380K_US_Restaurants.csv
