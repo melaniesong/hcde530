@@ -1,0 +1,6 @@
+streamlit
+anthropic
+python-docx
+openpyxl
+pandas
+python-dotenv

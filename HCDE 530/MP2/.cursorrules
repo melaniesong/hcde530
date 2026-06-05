@@ -1,0 +1,89 @@
+# MP2 — Usability Research Thematic Analysis Tool
+
+## What this project is
+
+A **Python** tool for **UX researchers** that ingests usability session **notes** and **text transcripts** (audio/video later), runs **thematic / qualitative synthesis**, and produces outputs researchers can scan quickly: **recurring themes**, **supporting quotes**, and **source provenance** (which note or transcript each quote came from).
+
+Researchers should be able to **interpret and manipulate** results (e.g. theme frequency) to build **charts** in Excel or notebooks.
+
+**Workspace:** `HCDE 530/MP2/` — keep all MP2 code, data samples, and exports here (standalone mini-project folder, like MP1).
+
+## Who it is for
+
+- **Primary users:** UX researchers (not limited to one team or study).
+- **Scale:** Support **any number of studies**; organize by `study_id` (or equivalent) in folder layout and output files.
+- **Modes (priority order):**
+  1. **v1 — Batch:** Upload/process multiple sessions and studies after fieldwork.
+  2. **v2 — Live:** Capture or analyze during a session (deferred until batch path works).
+
+## Product requirements (outputs)
+
+Every analysis run should aim to produce:
+
+| Output | Purpose |
+|--------|---------|
+| **Themes summary** | Plain-language theme names + short descriptions |
+| **Evidence table** | Quotes/snippets tied to `theme_id` |
+| **Provenance** | `study_id`, `session_id`, `source_type` (notes \| transcript), `source_file` |
+| **Counts** | Theme frequency (and optional sub-codes) for bar charts / Excel pivots |
+| **Formats** | **CSV** and **JSON** (machine-readable), **Excel-friendly** tables (`.csv` or `.xlsx`), **Markdown** report (human-readable) |
+
+Researchers must be able to answer: *What are the themes? What quotes support them? Where did each quote come from? How often did each theme appear?*
+
+## Privacy (v1)
+
+- Treat uploads as **potentially sensitive** (client/participant content).
+- Apply **light redaction** before analysis when feasible (e.g. participant names → `[Participant]`); document what was redacted.
+- **Do not** commit real participant data, API keys, or raw client transcripts to git—use `data/raw/` (gitignored) and `data/sample/` for demos only.
+- Prefer **local processing**; avoid sending full transcripts to paid cloud APIs unless the user explicitly opts in.
+
+## Technical direction
+
+- **Build with:** Cursor + **Python** (course-aligned, same habits as MP1).
+- **Interface (v1, flexible):** Likely **Jupyter notebook(s)** for exploration + pipeline steps; export **Excel-friendly** tables. A small CLI or Streamlit UI is optional later—do not over-build UI before core analysis works.
+- **Inputs (v1):** **Session notes** + **text transcripts** only (`.txt`, `.md`, `.vtt`, `.srt`, etc.—confirm as implemented).
+- **Inputs (later):** Audio/video → transcript (e.g. local Whisper); discuss tradeoffs before adding.
+- **Analysis approach:** **Undecided.** Before implementing theme extraction, **propose 2–3 free options** (e.g. local LLM via Ollama, sklearn/text clustering, human-in-the-loop codebook) with pros/cons. **Default: no paid APIs** unless the user explicitly requests and accepts cost.
+- **Charting:** Produce **aggregated count tables** (CSV/Excel); plotting can live in notebook (pandas/plotly/matplotlib) using those tables—not required in v1 core library.
+
+## MVP vs later
+
+| In scope (v1) | Out of scope until v1 works |
+|---------------|---------------------------|
+| Batch ingest per study | Live/real-time capture |
+| Notes + text transcripts | Automatic transcription from recordings |
+| Theme + quote + source linkage | Full research-repo / Dovetail parity |
+| CSV, JSON, Excel-friendly export, Markdown report | Multi-user auth, cloud hosting |
+| Name redaction hook | Advanced PII (emails, phones) unless requested |
+
+## Suggested directory layout (update when files exist)
+
+```text
+MP2/
+|-- .cursorrules
+|-- .gitignore
+|-- README.md
+|-- .env.example
+|-- notebooks/           # Jupyter workflows
+|-- src/                 # Reusable Python modules (when extracted from notebooks)
+|-- data/
+|   |-- sample/          # Safe-to-commit demo notes/transcripts
+|   `-- raw/             # Real study data (gitignored)
+|-- output/              # Generated themes, quotes, reports (gitignored or sample only)
+`-- tests/               # Optional, when logic stabilizes
+```
+
+## Coding preferences
+
+- Prefer **simple, readable Python**; small functions over premature frameworks.
+- **Avoid new paid dependencies** and **avoid new dependencies** unless they clearly unblock v1; ask before adding.
+- Keep **stable filenames** for export schemas once defined (e.g. `themes.csv`, `quotes.csv`, `theme_counts.csv`).
+- When changing export columns or folder layout, update this file’s directory section and `README.md`.
+- Match HCDE 530 norms: document assumptions in markdown; notebooks explain *findings for researchers*, not just code mechanics.
+
+## Agent instructions
+
+- Optimize for **researcher-readable outputs**, not developer-only logs.
+- Preserve **quote text** and **source pointers**; never drop provenance for shorter summaries.
+- When theme method is undecided, **compare free/local approaches** before writing a large analysis module.
+- Do not commit secrets (`.env`), raw participant data, or large media files.

@@ -1,0 +1,61 @@
+# HCDE 530 — Project Rules
+
+> **Also on the machine:** If your Cursor workspace is the whole git repo, rules may also load from  
+> **`/Users/melaniesong/Documents/Code/.cursorrules`** (one folder above this directory).
+
+## Directory Structure (Update This Section On File Changes)
+
+```text
+HCDE 530/
+|-- .cursorrules
+|-- .vscode/
+|   `-- settings.json
+|-- pyrightconfig.json
+|-- MP1/
+|   |-- .gitignore
+|   |-- README.md
+|   |-- mp1.md
+|   |-- pyrightconfig.json
+|   |-- week6_mp1_starter.ipynb
+|   |-- plotly-exercises.ipynb
+|   |-- tidy_data_exercise.ipynb
+|   |-- most_and_least_represented_asian_cuisines.png
+|   |-- asian_cuisine_restaurants_by_state.png
+|   |-- share_of_restaurants_that_are_asian_cuisine.png
+|   `-- mean_ratings_by_cuisine.png
+|-- MP2/
+|   |-- .cursorrules
+|   |-- .env.example
+|   |-- .gitignore
+|   |-- analyzer.py
+|   |-- app.py
+|   |-- exporter.py
+|   |-- mp2.md
+|   |-- README.md
+|   |-- requirements.txt
+|   |-- SPEC.md
+|   |-- utils.py
+|   `-- data/
+|       `-- sample/
+|-- HCDE 530 week 2/
+|-- HCDE 530 week 3/
+|-- HCDE 530 week 4/
+|-- HCDE 530 week 5/
+|-- HCDE 530 week 6/
+`-- HCDE 530 week 7/
+```
+
+Large CSVs for MP1 (`380K_US_Restaurants.csv`, `restaurants_deduped.csv`, `restaurants_cleaned.csv`) live in **`MP1/`** locally but are **gitignored** (>100 MB); see **`MP1/README.md`**.
+
+## Maintenance Requirement
+
+- When any file or folder under **`HCDE 530/`** is added, removed, moved, or renamed, update the **Directory Structure** section in this file in the same change.
+- Keep the structure concise and only include source/project files (skip `.git` internals, `.DS_Store`, `.venv/`).
+- Keep paths and names exactly as they appear in the repository.
+
+## Coding Preferences
+
+- Prefer simple, readable Python and HTML for coursework.
+- Avoid adding dependencies unless explicitly requested.
+- Keep data file names stable unless the user asks for a rename.
+- MP1 notebooks should use paths relative to **`MP1/`** (same folder as the CSVs when running locally).
